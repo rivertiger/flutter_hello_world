@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:logging/logging.dart';
+import 'package:hello_world/Navigation.dart';
+
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Logger.root.level = Level.ALL;
+    Logger.root.onRecord.listen((LogRecord rec) {
+      print('${rec.level.name}: ${rec.time}: ${rec.message}');
+    });
+//    return MaterialApp(
+//      title: 'Startup Name Generator',
+//      home: RandomWords(),
+//    );
 
-    return MaterialApp(
-      title: 'Startup Name Generator',
-      home: RandomWords(),
+    return new MaterialApp(
+        title: 'Navigation example',
+        onGenerateRoute: (RouteSettings settings) {
+          switch (settings.name) {
+            case '/': return new MyCustomRoute(
+              builder: (_) => new MyHomePage(),
+              settings: settings,
+            );
+            case '/somewhere': return new MyCustomRoute(
+              builder: (_) => new Somewhere(),
+              settings: settings,
+            );
+          }
+          assert(false);
+        }
     );
   }
 }
@@ -89,7 +112,7 @@ class RandomWordsState extends State<RandomWords> {
   }
 
   void _pushSaved() {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
           final tiles = _saved.map(
