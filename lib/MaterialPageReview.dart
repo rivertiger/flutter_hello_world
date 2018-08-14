@@ -95,6 +95,7 @@ class _MaterialPageReviewState extends State<MaterialPageReview> with TickerProv
               percentVisible: slidePercent,
             ),
           ),
+      SafeArea(child:
           new PagerIndicator(
             viewModel: new PagerIndicatorViewModel(
               pages,
@@ -103,6 +104,7 @@ class _MaterialPageReviewState extends State<MaterialPageReview> with TickerProv
               slidePercent,
             ),
           ),
+      ),
           new PageDragger(
             canDragLeftToRight: activeIndex > 0,
             canDragRightToLeft: activeIndex < pages.length - 1,
